@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app-transactions:
+    build: .
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - db-transactions
+    networks:
+      - microservices-network
+
+  db-transactions:
+    image: mysql:8.3
+    restart: always
+    ports:
+      - "3304:3304"
+    environment:
+      MYSQL_DATABASE: transaction_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_TCP_PORT: 3304
+    volumes:
+      - .dbtransaction:/var/lib/mysql-transaction:rw
+    user: mysql
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    external: true
+
+volumes:
+  dbtransaction:
+    name: dbtransaction
