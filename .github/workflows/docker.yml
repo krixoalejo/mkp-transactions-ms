@@ -40,7 +40,6 @@ jobs:
         push: true
         tags: |
           ${{secrets.REGION}}-docker.pkg.dev/${{secrets.PROJECT_ID}}/${{secrets.REPOSITORY_ID}}/${{secrets.IMAGE_NAME}}:${{github.sha}}
-          ${{secrets.REGION}}-docker.pkg.dev/${{secrets.PROJECT_ID}}/${{secrets.REPOSITORY_ID}}/${{secrets.IMAGE_NAME}}:latest
 
     - name: Trigger Terraform Deployment
       uses: actions/github-script@v6
