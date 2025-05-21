@@ -25,15 +25,15 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_TCP_PORT: 3304
     volumes:
-      - .dbtransaction:/var/lib/mysql-transaction:rw
+      - .transaction_db:/var/lib/mysql-transaction:rw
     user: mysql
     networks:
       - microservices-network
 
 networks:
   microservices-network:
-    external: true
+    driver: bridge
 
 volumes:
-  dbtransaction:
-    name: dbtransaction
+  transaction_db:
+    name: transaction_db

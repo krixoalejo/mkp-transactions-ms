@@ -14,7 +14,7 @@ export enum TransactionStatus {
   CANCELLED = "cancelled"
 }
 
-@Entity("transaction")
+@Entity("transaction_db")
 export class TransactionEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;

@@ -15,8 +15,18 @@ export class TransactionService {
    * @returns La transacción creada
    */
   async createTransaction(transactionData: Partial<TransactionEntity>): Promise<TransactionEntity> {
-    const transaction = this.transactionRepository.create(transactionData);
-    return await this.transactionRepository.save(transaction);
+    const response = await fetch("http://host.docker.internal:5000/api/fraud-preventions", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // body: JSON.stringify(transactionData),
+    });
+    const body = await response.json();
+    console.log({ body });
+    //const transaction = this.transactionRepository.create(transactionData);
+    //return await this.transactionRepository.save(transaction);
+    return new TransactionEntity();
   }
 
   /**
@@ -76,8 +86,8 @@ export class TransactionService {
    * @returns Lista de transacciones
    */
   async getTransactionsByType(
-    type: TransactionType, 
-    page: number = 1, 
+    type: TransactionType,
+    page: number = 1,
     limit: number = 10
   ): Promise<{ transactions: TransactionEntity[], total: number }> {
     const [transactions, total] = await this.transactionRepository.findAndCount({
