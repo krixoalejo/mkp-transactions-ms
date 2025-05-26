@@ -48,8 +48,8 @@ jobs:
       with:
         script: |
           await github.rest.actions.createWorkflowDispatch({
-            owner: 'tu_org',
-            repo: 'terraform-repo',
+            owner: 'krixoalejo',
+            repo: 'mkp-transactions-terraform',
             workflow_id: 'deploy.yml',
             ref: 'main',
             inputs: {
