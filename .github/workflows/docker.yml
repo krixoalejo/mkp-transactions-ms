@@ -3,6 +3,11 @@ name: Build and Push Docker Image
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Docker image tag'
+        required: true
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
@@ -45,7 +50,9 @@ jobs:
       uses: actions/github-script@v6
       env:
         IMAGE_TAG: ${{ github.sha }}
+        GH_PAT_TERRAFORM: ${{ secrets.GH_PAT_TERRAFORM }}
       with:
+        github-token: ${{ secrets.GH_PAT_TERRAFORM }}
         script: |
           await github.rest.actions.createWorkflowDispatch({
             owner: 'krixoalejo',
