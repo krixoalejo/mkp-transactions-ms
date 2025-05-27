@@ -32,6 +32,12 @@ export class TransactionEntity {
   @Column({ type: "varchar", length: 255, nullable: true })
   description: string;
 
+  @Column({ type: "varchar", length: 255, nullable: true })
+  userId: string;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  userIp: string;
+
   @Column({ type: "varchar", length: 100 })
   sourceAccount: string;
 
@@ -47,6 +53,9 @@ export class TransactionEntity {
 
   @Column({ type: "varchar", length: 50, nullable: true })
   referenceNumber: string;
+
+  @Column({ type: "varchar", length: 50, nullable: true })
+  paymentMethod: string;
 
   @Column({ type: "varchar", length: 50, nullable: true })
   currency: string;

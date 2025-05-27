@@ -15,18 +15,24 @@ export class TransactionService {
    * @returns La transacción creada
    */
   async createTransaction(transactionData: Partial<TransactionEntity>): Promise<TransactionEntity> {
-    const response = await fetch("http://host.docker.internal:5000/api/fraud-preventions", {
+    await fetch("https://fraud-prevention-api-fuylmr6llq-uc.a.run.app/api/fraud-preventions", {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify(transactionData),
+      body: JSON.stringify({
+        transactionId: transactionData.id,
+        userIp: transactionData.userIp,
+        userId: transactionData.userId,
+        additionalData: {
+          amount: transactionData.amount,
+          currency: transactionData.currency,
+          paymentMethod: transactionData.paymentMethod,
+        }
+      }),
     });
-    const body = await response.json();
-    console.log({ body });
-    //const transaction = this.transactionRepository.create(transactionData);
-    //return await this.transactionRepository.save(transaction);
-    return new TransactionEntity();
+    const transaction = this.transactionRepository.create(transactionData);
+    return await this.transactionRepository.save(transaction);
   }
 
   /**
