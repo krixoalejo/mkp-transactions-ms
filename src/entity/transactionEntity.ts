@@ -66,3 +66,6 @@ export class TransactionEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+
+// Asegurarse de que la entidad esté registrada para TypeORM
+console.log("TransactionEntity loaded:", TransactionEntity.name);

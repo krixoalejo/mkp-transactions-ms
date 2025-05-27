@@ -95,4 +95,6 @@ __decorate([
 exports.TransactionEntity = TransactionEntity = __decorate([
     (0, typeorm_1.Entity)("transactions")
 ], TransactionEntity);
+// Asegurarse de que la entidad esté registrada para TypeORM
+console.log("TransactionEntity loaded:", TransactionEntity.name);
 //# sourceMappingURL=transactionEntity.js.map

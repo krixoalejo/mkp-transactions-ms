@@ -13,10 +13,23 @@ dotenv_1.default.config();
 // Configuración para entorno de desarrollo local o producción
 const isProduction = process.env.NODE_ENV === "production";
 const isCloudRun = process.env.K_SERVICE !== undefined;
+console.log("Environment:", {
+    isProduction,
+    isCloudRun,
+    NODE_ENV: process.env.NODE_ENV,
+    K_SERVICE: process.env.K_SERVICE,
+    dirname: __dirname
+});
 // Configurar entidades según el entorno
-const entities = isProduction
-    ? [path_1.default.join(__dirname, "..", "entity", "*.js")]
-    : [transactionEntity_1.TransactionEntity];
+let entities;
+if (isProduction) {
+    const entityPath = path_1.default.join(__dirname, "..", "entity", "*.js");
+    console.log("Entity path:", entityPath);
+    entities = [entityPath, transactionEntity_1.TransactionEntity];
+}
+else {
+    entities = [transactionEntity_1.TransactionEntity];
+}
 exports.AppDataSource = new typeorm_1.DataSource({
     type: "mysql",
     host: isCloudRun
@@ -27,7 +40,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
     password: process.env.DB_PASSWORD || "root",
     database: process.env.DB_DATABASE || "transaction_db",
     synchronize: true,
-    logging: process.env.NODE_ENV === "development",
+    logging: true, // Habilitar logging para diagnóstico
     entities: entities,
     extra: isCloudRun
         ? {
