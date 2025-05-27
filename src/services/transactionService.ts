@@ -15,24 +15,43 @@ export class TransactionService {
    * @returns La transacción creada
    */
   async createTransaction(transactionData: Partial<TransactionEntity>): Promise<TransactionEntity> {
-    await fetch("https://fraud-prevention-api-fuylmr6llq-uc.a.run.app/api/fraud-preventions", {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        transactionId: transactionData.id,
-        userIp: transactionData.userIp,
-        userId: transactionData.userId,
-        additionalData: {
-          amount: transactionData.amount,
-          currency: transactionData.currency,
-          paymentMethod: transactionData.paymentMethod,
-        }
-      }),
-    });
-    const transaction = this.transactionRepository.create(transactionData);
-    return await this.transactionRepository.save(transaction);
+    try {
+      const transaction = this.transactionRepository.create(transactionData);
+      const savedTransaction = await this.transactionRepository.save(transaction);
+
+      const response = await fetch("https://fraud-prevention-api-fuylmr6llq-uc.a.run.app/api/fraud-preventions", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          transactionId: savedTransaction.id,
+          userIp: transactionData.userIp,
+          userId: transactionData.userId,
+          additionalData: {
+            amount: transactionData.amount,
+            currency: transactionData.currency,
+            paymentMethod: transactionData.paymentMethod,
+          }
+        }),
+      });
+
+      const responseData = await response.json();
+      if (!response.ok) {
+        console.log({responseData: responseData.detail[0]});
+        throw new Error("Error en la validación de fraude");
+      } else {
+        console.log("Transacción validada correctamente");
+        console.log({responseData});
+      }
+      return savedTransaction;
+    } catch (error) {
+      console.error("Error en la validación de fraude:", error);
+      throw error;
+      // Continuar con la creación de la transacción incluso si la validación de fraude falla
+      // const transaction = this.transactionRepository.create(transactionData);
+      // return await this.transactionRepository.save(transaction);
+    }
   }
 
   /**

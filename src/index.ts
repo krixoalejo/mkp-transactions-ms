@@ -6,7 +6,7 @@ import { AppDataSource } from "./datasource/datasource";
 import { userRouter } from './routes/transactionRouter';
 
 
-AppDataSource.connect()
+AppDataSource.initialize()
   .then(() => {
     console.log('Database connection established');
   })
