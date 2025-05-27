@@ -1,7 +1,7 @@
 {
   "type": "mysql",
   "host": "/cloudsql/logical-grammar-438423-b8:us-central1:db-transactions",
-  "port": 3304,
+  "port": 3306,
   "username": "root",
   "password": "root",
   "database": "transaction_db",

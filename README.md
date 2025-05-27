@@ -39,7 +39,7 @@ Crea un archivo `.env` en la raíz del proyecto basándote en el ejemplo:
 ```
 # Database configuration
 DB_HOST=db-transactions
-DB_PORT=3304
+DB_PORT=3306
 DB_USERNAME=root
 DB_PASSWORD=root
 DB_DATABASE=transaction_db
