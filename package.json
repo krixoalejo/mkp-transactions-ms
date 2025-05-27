@@ -2,10 +2,10 @@
   "name": "transaction-ms",
   "version": "1.0.0",
   "description": "Transaction microservice",
-  "main": "src/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon src/index.ts",
+    "start": "node dist/src/index.js",
     "dev": "NODE_ENV=development DB_HOST=localhost DB_PORT=3306 DB_USERNAME=root DB_PASSWORD=root DB_DATABASE=transaction_db nodemon src/index.ts",
     "prod": "NODE_ENV=production npm run build && node dist/src/index.js",
     "test": "jest"

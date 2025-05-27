@@ -1,10 +1,22 @@
-FROM node:21
+FROM node:21 as build
 
 WORKDIR /app
-COPY package*.json .
+COPY package*.json ./
 RUN npm install
 COPY . .
+RUN npm run build
 
-EXPOSE 3000
+FROM node:21-slim
 
-CMD ["npm", "start"]
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --only=production
+COPY --from=build /app/dist ./dist
+COPY ormconfig.json ./
+
+ENV NODE_ENV=production
+ENV PORT=4000
+
+EXPOSE 4000
+
+CMD ["node", "dist/src/index.js"]
